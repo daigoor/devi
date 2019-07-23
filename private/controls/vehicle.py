@@ -5,7 +5,7 @@ __author__      = "DaiGooR"
 __copyright__   = "Copyright 2019, DaiGooR"
 
 import sys
-import fake_rpi.RPi
+import RPi.GPIO as GPIO
 
 #Standard Pin Definitions for motor
 RIGHT1 = 5
@@ -88,5 +88,4 @@ def _stop():
     GPIO.output(LEFT2, GPIO.HIGH)
 
 if __name__ == "__main__":
-    if(not constants.DEBUG):
-        main()
+    main()
