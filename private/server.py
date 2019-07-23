@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""server.py: SERVER."""
+
+__author__      = "DaiGooR"
+__copyright__   = "Copyright 2019, DaiGooR"
+
 import io
 import logging
 import socketserver

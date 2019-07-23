@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""camera.py: controls all the movements of the camera motors."""
+
+__author__      = "DaiGooR"
+__copyright__   = "Copyright 2019, DaiGooR"
 
 import sys
 import subprocess
@@ -6,8 +10,8 @@ import subprocess
 def main():
     """Main runnable method"""
 
-    if (sys.argv).__len__() < 3:
-        print '''please enter params (python motormotioncommands.py up true)'''
+    if (sys.argv).__len__() < 2:
+        print('please enter params [left|right|up|down]')
         return
 
     direction = sys.argv[1:][0]
@@ -15,54 +19,35 @@ def main():
 
     if movement != 'false':
         if direction == 'up':
-            moveforward()
+            turn_up()
         elif direction == 'down':
-            movebackwards()
+            turn_down()
         if direction == 'right':
-            turnright()
+            turn_right()
         elif direction == 'left':
-            turnleft()
-
-    print movement
+            turn_left()
 
     return 200
 
-
-# Note: Output arrangement is important to make sure there is no jitter
-# in the motors when moving Forwards/Backwards
-
-def moveforward():
-    """init pins"""
-    print 'moveforward'
+def turn_up():
     subprocess.call('crc/rotateCam.sh up'.split())
 
 
-def movebackwards():
-    """move backwards"""
-    print 'movebackwards'
+def turn_down():
     subprocess.call('crc/rotateCam.sh down'.split())
 
 
-# Note: Output arrangement is important to make sure there is no jitter
-# in the motors when turning Right/Left
-
-# Rotation is done by reversing the right motor, while other motors are off
-# and therefore doing a circle turn right.
-
-def turnright():
-    """move to the right"""
-    print 'turnright'
+def turn_right():
     subprocess.call('crc/rotateCam.sh right'.split())
     
 
-def turnleft():
-    """move to the left"""
-    print 'turnleft'
+def turn_left():
     subprocess.call('crc/rotateCam.sh left'.split())
 
-def stop():
+def _stop():
     """STOP ALL KIND OF MOVEMENTS"""
   
 
 if __name__ == "__main__":
-    main()
+    if(not constants.DEBUG):
+        main()

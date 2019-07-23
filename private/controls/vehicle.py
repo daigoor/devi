@@ -1,7 +1,11 @@
 #!/usr/bin/env python
+"""vehicle.py: controls all the movements of the vehicle motors."""
+
+__author__      = "DaiGooR"
+__copyright__   = "Copyright 2019, DaiGooR"
 
 import sys
-import RPi.GPIO as GPIO
+import fake_rpi.RPi
 
 #Standard Pin Definitions for motor
 RIGHT1 = 5
@@ -13,30 +17,28 @@ def main():
     """Main runnable method"""
 
     if (sys.argv).__len__() < 3:
-        print '''please enter params (python motormotioncommands.py up true)'''
+        print('please enter params [left|right|up|down] [true|false|]')
         return
 
     direction = sys.argv[1:][0]
     movement = sys.argv[1:][1]
 
-    initmotorpins() 
+    reset() 
 
     if movement != 'false':
         if direction == 'up':
-            moveforward()
+            move_forward()
         elif direction == 'down':
-            movebackwards()
+            move_backwards()
         if direction == 'right':
-            turnright()
+            move_right()
         elif direction == 'left':
-            turnleft()
-
-    print movement
-
+            move_left()
+            
     return 200
 
 
-def initmotorpins():
+def reset():
     """init pins"""
     #Set pins as outputs 
     GPIO.setwarnings(False)
@@ -46,50 +48,39 @@ def initmotorpins():
     GPIO.setup(RIGHT2, GPIO.OUT)
     GPIO.setup(LEFT1, GPIO.OUT)
     GPIO.setup(LEFT2, GPIO.OUT)
-    stop()
+    _stop()
 
 # Note: Output arrangement is important to make sure there is no jitter
 # in the motors when moving Forwards/Backwards
 
-def moveforward():
-    """init pins"""
-    print 'moveforward'
+def move_forward():
     GPIO.output(RIGHT1, GPIO.HIGH)
     GPIO.output(LEFT1, GPIO.HIGH)
     GPIO.output(RIGHT2, GPIO.LOW)
     GPIO.output(LEFT2, GPIO.LOW)
 
-def movebackwards():
-    """move backwards"""
-    print 'movebackwards'
+def move_backwards():
     GPIO.output(RIGHT1, GPIO.LOW)
     GPIO.output(LEFT1, GPIO.LOW)
     GPIO.output(RIGHT2, GPIO.HIGH)
     GPIO.output(LEFT2, GPIO.HIGH)
 
-# Note: Output arrangement is important to make sure there is no jitter
-# in the motors when turning Right/Left
-
 # Rotation is done by reversing the right motor, while other motors are off
 # and therefore doing a circle turn right.
 
-def turnright():
-    """move to the right"""
-    print 'turnright'
+def move_right():
     GPIO.output(RIGHT1, GPIO.LOW)
     GPIO.output(LEFT1, GPIO.LOW)
     GPIO.output(RIGHT2, GPIO.HIGH)
     GPIO.output(LEFT2, GPIO.LOW)
 
-def turnleft():
-    """move to the left"""
-    print 'turnleft'
+def move_left():
     GPIO.output(RIGHT1, GPIO.LOW)
     GPIO.output(LEFT1, GPIO.LOW)
     GPIO.output(RIGHT2, GPIO.LOW)
     GPIO.output(LEFT2, GPIO.HIGH)
 
-def stop():
+def _stop():
     """STOP ALL KIND OF MOVEMENTS"""
     GPIO.output(RIGHT1, GPIO.HIGH)
     GPIO.output(LEFT1, GPIO.HIGH)
@@ -97,4 +88,5 @@ def stop():
     GPIO.output(LEFT2, GPIO.HIGH)
 
 if __name__ == "__main__":
-    main()
+    if(not constants.DEBUG):
+        main()

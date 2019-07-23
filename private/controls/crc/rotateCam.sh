@@ -1,23 +1,21 @@
 #!/bin/bash
 
 # set variables for horizontal movements
-CamHorPosFile=commands/crc/cam_H_position
+CamHorPosFile=crc/cam_H_position
 HPin=18
 LowerHLim=80
 UpperHLim=280
 HStep=5
 
 # set variables for vertical movements
-CamVerPosFile=commands/crc/cam_V_position
+CamVerPosFile=crc/cam_V_position
 VPin=19
 LowerVLim=100
 UpperVLim=250
 VStep=10
 
-usageMsg='usage: ./rotateHorizontal.sh [left|right|up|down]'
+usageMsg='usage: ./rotateCam.sh [left|right|up|down]'
 
-#echo $#
-#echo $1
 if [ $# -lt 1 ]
 then
 	echo $usageMsg
