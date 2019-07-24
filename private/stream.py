@@ -6,7 +6,7 @@ __copyright__   = "Copyright 2019, DaiGooR"
 
 import io
 import logging
-import fake_rpi
+import picamera
 import socketserver
 import constants
 from threading import Condition
@@ -30,12 +30,11 @@ class StreamingOutput(object):
             self.buffer.seek(0)
         return self.buffer.write(buf)   
 
-if(not constants.DEBUG):
-    with fake_rpi.picamera.PiCamera() as camera:
-        output = StreamingOutput()
-        #Uncomment the next line to change your Pi's Camera rotation (in degrees)
-        #camera.rotation = 90
-        camera.start_recording(output, format='mjpeg')
+with picamera.PiCamera() as camera:
+    output = StreamingOutput()
+    #Uncomment the next line to change your Pi's Camera rotation (in degrees)
+    #camera.rotation = 90
+    camera.start_recording(output, format='mjpeg')
 
 
 
