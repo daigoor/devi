@@ -78,23 +78,20 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
         self.send_header('Pragma', 'no-cache')
         self.send_header(constants.HEADER_CONTENT_TYPE, constants.CONTENT_TYPE_MULTIPART)
         self.end_headers()
-        
-        if(not constants.DEBUG):
-            try:
-                while True:
-                    with self.output.condition:
-                        self.output.condition.wait()
-                        frame = self.output.frame
-                    self.wfile.write(b'--FRAME\r\n')
-                    self.send_header(constants.HEADER_CONTENT_TYPE, constants.CONTENT_TYPE_JPEG)
-                    self.send_header(constants.HEADER_CONTENT_LENGTH, len(frame))
-                    self.end_headers()
-                    self.wfile.write(frame)
-                    self.wfile.write(b'\r\n')
-            except Exception as e:
-                logging.warning(
-                    'Removed streaming client %s: %s',
-                    self.client_address, str(e))
+       
+        try:
+	    while True :
+	        with self.output.condition:
+	             self.output.condition.wait()
+	             frame = self.output.frame
+	        self.wfile.write(b'--FRAME\r\n')
+	        self.send_header(constants.HEADER_CONTENT_TYPE, constants.CONTENT_TYPE_JPEG)
+	        self.send_header(constants.HEADER_CONTENT_LENGTH, len(frame))
+	        self.end_headers()
+	        self.wfile.write(frame)
+	        self.wfile.write(b'\r\n')
+	except Exception as e:
+	    logging.warning('Removed streaming client %s: %s',self.client_address, str(e))
 
     def _redirect(self):
         self.send_response(301)
