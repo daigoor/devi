@@ -45,8 +45,8 @@
 }
 
 .video {
-	margin: auto;
-    width: 60%;
+    margin: auto;
+    width: 640px;
     border: 1px solid green;
     padding: 5px;
 }
